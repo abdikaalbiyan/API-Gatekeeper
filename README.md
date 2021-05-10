@@ -1,8 +1,8 @@
 # API-Gatekeeper
+Create API to validate JSON input, send and write it into database
 
 
 ## Installation
-
 - >python 3.7
 - Enabled Cloud Pub/Sub API on Google Cloud Platform.
 - Create service account as an owner (Save json file to app folder)
