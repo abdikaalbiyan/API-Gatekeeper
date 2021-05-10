@@ -12,52 +12,29 @@ message_payload = {
     "properties": {
         "activities": {
             "type": "array",
-            "items": {"anyOf": [{"$ref": "#/$defs/insert"}, {"$ref": "#/$defs/delete"}]},
+            "items": {"$ref": "#/$defs/operations"},
             "minItems": 1
         }
     },
     "$defs": {
-        "insert": {
+        "operations": {
             "type": "object",
             "required": ["operation", "table", "col_names", "col_types", "col_values"],
             "properties": {
-                "operation": {"const": "insert"},
+                "operation": {"anyOf": [{"const": "insert"},
+                                        {"const": "delete"}]},
                 "table": {"type": "string"},
                 "col_names": {
                     "type": "array",
                     "items": {"type": "string"}
                 },
-                "col_types": {
-                    "type": "array",
-                    "items": {"type": "string"}
-                },
+                "col_types": {"type": "array",
+                            "items": {"enum": [ "string", "bytes", "integer",
+                                                "float", "numeric", "bignumeric",
+                                                "boolean", "timestamp", "date", "time",
+                                                "datetime", "geography", "record"]}},
                 "col_values": {
                     "type": "array"
-                }
-            }
-        },
-        "delete": {
-            "type": "object",
-            "required": ["operation", "table", "old_value"],
-            "properties": {
-                "operation": {"const": "delete"},
-                "table": {"type": "string"},
-                "old_value": {
-                    "type": "object",
-                    "required": ["col_names", "col_types", "col_values"],
-                    "properties": {
-                        "col_names": {
-                            "type": "array",
-                            "items": {"type": "string"}
-                        },
-                        "col_types": {
-                            "type": "array",
-                            "items": {"type": "string"}
-                        },
-                        "col_values": {
-                            "type": "array"
-                        }
-                    }
                 }
             }
         }
